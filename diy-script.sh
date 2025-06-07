@@ -27,7 +27,7 @@ function git_sparse_clone() {
 # Add a feed source
 #echo 'src-git kiddin9 https://github.com/kiddin9/kwrt-packages.git' >>feeds.conf.default
 #下面这条覆盖了添加额外插件的所有插件，可以说更全
-echo 'src-git smpackage https://github.com/kenzok8/small-package.git' >>feeds.conf.default
+#echo 'src-git smpackage https://github.com/kenzok8/small-package.git' >>feeds.conf.default
 
 
 
