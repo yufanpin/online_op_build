@@ -1,4 +1,4 @@
-name: LEDE_Build
+name: LEDE_local_Build
 
 on:
   workflow_dispatch:
@@ -14,7 +14,7 @@ env:
   CACHE_TOOLCHAIN: true
   UPLOAD_BIN_DIR: false
   FIRMWARE_RELEASE: true
-  FIRMWARE_TAG: LEDE_ER1
+  FIRMWARE_TAG: LEDE_ER1_local
   TZ: Asia/Shanghai
 
 jobs:
