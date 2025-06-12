@@ -20,8 +20,8 @@ sed -i 's/192.168.1.1/192.168.10.1/g' package/base-files/files/bin/config_genera
 # 修改默认主机名
 sed -i "s/hostname='.*'/hostname='HOMR'/g" package/base-files/files/bin/config_generate
 
-# 添加 LuCI 状态页的构建信息
-sed -i "s/(\(luciversion || ''\))/(\1) + (' \/ Build by Superman')/g" feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
+# 添加 LuCI 状态页的构建信息  这行代码有问题，版本号会跟固件内核版本号对应不上
+# sed -i "s/(\(luciversion || ''\))/(\1) + (' \/ Build by Superman')/g" feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
 
 # TTYD 免登录
 # sed -i 's|/bin/login|/bin/login -f root|g' feeds/packages/utils/ttyd/files/ttyd.config
@@ -32,8 +32,8 @@ sed -i 's/os.date()/os.date("%a %Y-%m-%d %H:%M:%S")/g' package/lean/autocore/fil
 # 修改版本号为编译日期 + 自定义名
 date_version=$(date +"%y.%m.%d")
 orig_version=$(grep "DISTRIB_REVISION=" package/lean/default-settings/files/zzz-default-settings | awk -F "'" '{print $2}')
-# sed -i "s/${orig_version}/R${date_version} by Superman/g" package/lean/default-settings/files/zzz-default-settings
-sed -i "s/${orig_version}/R${date_version} /g" package/lean/default-settings/files/zzz-default-settings
+sed -i "s/${orig_version}/R${date_version} by Superman/g" package/lean/default-settings/files/zzz-default-settings
+
 
 ### ========== 4. 修复兼容问题 ==========
 # 修复 hostapd 报错
@@ -53,3 +53,11 @@ find package/*/ -maxdepth 2 -path "*/Makefile" | xargs -i sed -i 's|PKG_SOURCE_U
 ### ========== 6. 拉取 feeds ==========
 ./scripts/feeds update -a
 ./scripts/feeds install -a
+
+
+
+### ========== 7. 应用 LED 补丁 ==========
+#京东云太乙的led灯的补丁，设备正常运行亮绿灯
+echo "Applying LED green status patch..."
+PATCH_DIR="$GITHUB_WORKSPACE/patches/led"
+[ -f "$PATCH_DIR/led_green_status_ipq60xx.patch" ] && patch -p1 < "$PATCH_DIR/led_green_status_ipq60xx.patch"
