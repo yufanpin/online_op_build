@@ -56,8 +56,3 @@ find package/*/ -maxdepth 2 -path "*/Makefile" | xargs -i sed -i 's|PKG_SOURCE_U
 
 
 
-### ========== 7. 应用 LED 补丁 ==========
-#京东云太乙的led灯的补丁，设备正常运行亮绿灯
-echo "Applying LED green status patch..."
-PATCH_DIR="$GITHUB_WORKSPACE/patches/led"
-[ -f "$PATCH_DIR/led_green_status_ipq60xx.patch" ] && patch -p1 < "$PATCH_DIR/led_green_status_ipq60xx.patch"
